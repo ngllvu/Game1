@@ -4,18 +4,14 @@ class_name GS
 
 @export var jump_velocity : float = -250.0
 @export var air_state : State
+@export var land_state : State
 @export var jump_animation : String = "jump"
 @export var attack_node : String = "attack1"
-
 @export var attack_state : State
 @export var dash_animation : String = "dash"
 @export var dash_state : State
 
-@onready var Dash = $Dash
 @onready var gtimer : Timer = $gtimer
-
-var dash_speed = 300
-var dash_length = .2
 
 func _ready():
 	pass # Replace with function body.
@@ -42,6 +38,6 @@ func attack():
 	playback.travel(attack_node)
 
 func dash():
-	main.velocity.x = dash_speed * dash_length
+	
 	next_state = dash_state
 	playback.travel(dash_animation)

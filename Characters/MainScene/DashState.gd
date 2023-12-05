@@ -6,9 +6,10 @@ class_name Dash
 @export var dash_node : String = "dash"
 @export var return_state : State
 @export var return_animation : String = "move"
+
 @onready var dtimer : Timer = $dtimer
 
-func state_process(delta):
+func state_process(delta : float):
 	pass
 
 func state_input(event : InputEvent):
@@ -22,3 +23,7 @@ func _on_animation_tree_animation_finished(anim_name):
 			playback.travel(return_animation)
 		else :
 			playback.travel(dash_node)
+
+func _on_dtimer_timeout():
+	pass # Replace with function body.
+

@@ -1,4 +1,5 @@
 extends State
+
 class_name Attack
 
 @export var attack1_name : String = "attack1"
@@ -13,7 +14,7 @@ class_name Attack
 @onready var atimer : Timer = $atimer
 
 func _ready():
-	pass # Replace with function body.
+	pass 
 
 func state_input(event : InputEvent):
 	if event.is_action_pressed("attack"):

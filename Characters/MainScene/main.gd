@@ -3,6 +3,7 @@ extends CharacterBody2D
 class_name Main
 
 @export var speed : float = 150.0
+
 @onready var s2d : Sprite2D = $Sprite2D
 @onready var at : AnimationTree = $AnimationTree
 @onready var sm : MainStateMachine = $MainStateMachine
@@ -39,9 +40,3 @@ func update_animation():
 	
 	emit_signal("facing_direction", !s2d.flip_h)
 
-
-func _on_heavy_attack_cooldown_timeout():
-	pass 
-
-func _on_dash_cooldown_timeout():
-	pass

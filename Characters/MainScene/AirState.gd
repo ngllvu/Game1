@@ -5,10 +5,12 @@ class_name AS
 @export var landing_state : State
 @export var flip_animation : String = "jump_flip"
 @export var landing_animation : String = "landing"
+@export var slash1_animation : String = "slash1"
 
 var going_to_flip : bool = false 
 var going_to_attack : bool = false
 var going_to_dash : bool = false
+
 func state_input(event: InputEvent):
 	if event.is_action_pressed("jump") && not going_to_flip :
 		jump_flip()
@@ -30,4 +32,5 @@ func jump_flip():
 	going_to_flip = true
 
 func air_attack():
-	pass
+	playback.travel(slash1_animation)
+	going_to_attack = true

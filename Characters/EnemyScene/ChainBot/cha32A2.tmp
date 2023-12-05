@@ -1,0 +1,477 @@
+[gd_scene load_steps=36 format=3 uid="uid://b5hiftwlbxmbu"]
+
+[ext_resource type="Texture2D" uid="uid://cwd7emi5qalr" path="res://pixel/Ball and Chain Bot/attack.png" id="2_d3gdm"]
+[ext_resource type="Texture2D" uid="uid://psonvg04ykh0" path="res://pixel/Ball and Chain Bot/run.png" id="3_v8eat"]
+[ext_resource type="Texture2D" uid="uid://eocdnrvniqwk" path="res://pixel/Ball and Chain Bot/idle.png" id="4_ri7fr"]
+[ext_resource type="Texture2D" uid="uid://karrtpwi3aej" path="res://pixel/Ball and Chain Bot/hit.png" id="5_vfcc5"]
+[ext_resource type="Texture2D" uid="uid://d4gjms50gs8ha" path="res://pixel/Ball and Chain Bot/death.png" id="6_gm04m"]
+[ext_resource type="Script" path="res://Characters/MainScene/State.gd" id="13_lpbap"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_86yem"]
+radius = 7.0
+height = 23.0
+
+[sub_resource type="Animation" id="Animation_4mr5x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_fml2t"]
+resource_name = "attack"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_d3gdm")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:vframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_gf0dv"]
+resource_name = "dead"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("6_gm04m")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:vframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="Animation" id="Animation_vo538"]
+resource_name = "get_hit"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_vfcc5")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:vframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_xxs3n"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_ri7fr")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:vframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="Animation" id="Animation_7whyl"]
+resource_name = "run"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("3_v8eat")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:vframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_de5s3"]
+_data = {
+"RESET": SubResource("Animation_4mr5x"),
+"attack": SubResource("Animation_fml2t"),
+"dead": SubResource("Animation_gf0dv"),
+"get_hit": SubResource("Animation_vo538"),
+"idle": SubResource("Animation_xxs3n"),
+"run": SubResource("Animation_7whyl")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_84e6s"]
+animation = &"attack"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cjyqf"]
+animation = &"dead"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kc37w"]
+animation = &"get_hit"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wj5rg"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_svajv"]
+animation = &"run"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_pn8kv"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_nkwy2"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_n71b3"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0de3s"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_s4c8a"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_d7pqw"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_eca3w"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0pfgv"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_h628f"]
+states/Start/position = Vector2(91, 149)
+states/attack/node = SubResource("AnimationNodeAnimation_84e6s")
+states/attack/position = Vector2(280, 235)
+states/dead/node = SubResource("AnimationNodeAnimation_cjyqf")
+states/dead/position = Vector2(657, 149)
+states/get_hit/node = SubResource("AnimationNodeAnimation_kc37w")
+states/get_hit/position = Vector2(471, 149)
+states/idle/node = SubResource("AnimationNodeAnimation_wj5rg")
+states/idle/position = Vector2(280, 149)
+states/run/node = SubResource("AnimationNodeAnimation_svajv")
+states/run/position = Vector2(280, 67)
+transitions = ["idle", "run", SubResource("AnimationNodeStateMachineTransition_pn8kv"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_nkwy2"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_n71b3"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_0de3s"), "Start", "idle", SubResource("AnimationNodeStateMachineTransition_s4c8a"), "idle", "get_hit", SubResource("AnimationNodeStateMachineTransition_d7pqw"), "get_hit", "idle", SubResource("AnimationNodeStateMachineTransition_eca3w"), "get_hit", "dead", SubResource("AnimationNodeStateMachineTransition_0pfgv")]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q636b"]
+size = Vector2(134.5, 12)
+
+[sub_resource type="GDScript" id="GDScript_b4k35"]
+script/source = "extends Area2D
+
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fqae7"]
+size = Vector2(43, 11.5)
+
+[sub_resource type="GDScript" id="GDScript_q61hd"]
+script/source = "extends CollisionShape2D
+
+class_name CollDirection
+@export var facing_left : Vector2
+@export var facing_right : Vector2
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+"
+
+[sub_resource type="GDScript" id="GDScript_60l6q"]
+script/source = "extends Node
+
+class_name  ChainBotHealth
+
+@export var health : float = 300.0
+@export var dead_name : String = \"dead\"
+
+signal on_hit(node : Node, dmg_taken : int)
+
+func _ready():
+	pass 
+
+func _process(delta):
+	pass
+
+func hit(damage : int):
+	health -= damage
+	emit_signal(\"on_hit\", get_parent(), damage)
+
+func _on_animation_tree_animation_finished(anim_name):
+	if anim_name == dead_name && health <= 0:
+			get_parent().queue_free()
+"
+
+[sub_resource type="GDScript" id="GDScript_lpi6i"]
+script/source = "extends Node
+
+class_name ChainBotStateMachine
+
+@export var curr_state : State
+@export var main : CharacterBody2D
+@export var at : AnimationTree
+@export var state : Array[State]
+
+func _ready():
+	for child in get_children():
+		if child is State:
+			state.append(child)
+			
+			child.main = main
+			child.playback = at[\"parameters/playback\"]
+			
+			child.connect(\"interrupt_state\", on_state_interrupt_state)
+
+func check_move():
+	return curr_state.can_move
+
+
+func switch_state(new_state : State):
+	if curr_state != null:
+		curr_state.on_exit()
+		curr_state.next_state = null
+		
+	curr_state = new_state
+	
+	curr_state.on_enter()
+
+func on_state_interrupt_state(new_state : State):
+	switch_state(new_state)
+
+func _input(event: InputEvent):
+	curr_state.state_input(event)
+
+func _physics_process(delta):
+	if curr_state.next_state != null:
+		switch_state(curr_state.next_state)
+		
+	curr_state.state_process(delta)
+"
+
+[sub_resource type="GDScript" id="GDScript_463sl"]
+script/source = "extends State
+
+class_name ChainBotGetHit
+
+@export var enemy_health : ChainBotHealth
+@export var dead_state : State
+@export var dead_animation : String = \"dead\"
+@export var get_hit_animation : String = \"get_hit\"
+
+
+func _ready():
+	enemy_health.connect(\"on_hit\", on_enemy_health_hit)
+
+func _process(delta):
+	pass
+
+func on_enemy_health_hit(node: Node, dmg_amount : int):
+	if enemy_health.health > 0:
+		emit_signal(\"interrupt_state\", self)
+		playback.travel(get_hit_animation)
+	else :
+		emit_signal(\"interrupt_state\", dead_state)
+		playback.travel(dead_animation)
+"
+
+[node name="ChainBot" type="CharacterBody2D"]
+collision_layer = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("4_ri7fr")
+vframes = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3, 1)
+shape = SubResource("CapsuleShape2D_86yem")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_de5s3")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_h628f")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+
+[node name="detech" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detech"]
+position = Vector2(76.75, 6)
+shape = SubResource("RectangleShape2D_q636b")
+
+[node name="Whip" type="Area2D" parent="."]
+monitoring = false
+script = SubResource("GDScript_b4k35")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Whip"]
+position = Vector2(31, 6)
+shape = SubResource("RectangleShape2D_fqae7")
+script = SubResource("GDScript_q61hd")
+
+[node name="Health" type="Node" parent="."]
+script = SubResource("GDScript_60l6q")
+
+[node name="ChainBotStateMachine" type="Node" parent="." node_paths=PackedStringArray("curr_state", "main", "at")]
+script = SubResource("GDScript_lpi6i")
+curr_state = NodePath("Idle")
+main = NodePath("..")
+at = NodePath("../AnimationTree")
+
+[node name="Idle" type="Node" parent="ChainBotStateMachine"]
+script = ExtResource("13_lpbap")
+
+[node name="Chase" type="Node" parent="ChainBotStateMachine"]
+script = ExtResource("13_lpbap")
+
+[node name="Attack" type="Node" parent="ChainBotStateMachine"]
+script = ExtResource("13_lpbap")
+
+[node name="GetHit" type="Node" parent="ChainBotStateMachine" node_paths=PackedStringArray("enemy_health", "dead_state")]
+script = SubResource("GDScript_463sl")
+enemy_health = NodePath("../../Health")
+dead_state = NodePath("../Dead")
+
+[node name="Dead" type="Node" parent="ChainBotStateMachine"]
+script = ExtResource("13_lpbap")
+can_move = false
+
+[connection signal="animation_finished" from="AnimationTree" to="Health" method="_on_animation_tree_animation_finished"]
+[connection signal="body_entered" from="Whip" to="Whip" method="_on_body_entered"]

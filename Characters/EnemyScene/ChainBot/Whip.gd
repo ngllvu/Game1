@@ -1,8 +1,8 @@
 extends Area2D
 
-@export var main : Main
-@export var damage : int = 30
-@export var facing_collision : CollisionDirect
+@export var main : ChainBot
+@export var damage : int = 50
+@export var facing_collision : CollDirect
 
 func _ready():
 	monitoring = false
@@ -13,7 +13,7 @@ func _process(delta):
 
 func _on_body_entered(body):
 	for child in body.get_children():
-		if child is EyeBeastHealth || child is ChainBotHealth:
+		if child is Main:
 			child.hit(damage)
 
 func _on_main_facing_direction(facing_right : bool):

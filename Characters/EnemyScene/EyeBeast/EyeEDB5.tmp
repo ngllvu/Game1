@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://dpkc3xxkinh4x" path="res://pixel/Evil Eye Beast For Itch/Hit/Eye Get HIt.png" id="5_siohw"]
 [ext_resource type="Script" path="res://Characters/EnemyScene/EyeBeast/EyeBeastHealth.gd" id="6_cf50n"]
 [ext_resource type="Script" path="res://Characters/EnemyScene/EyeBeast/EyeBeastStateMachine.gd" id="7_gnsoa"]
-[ext_resource type="Script" path="res://Characters/MainScene/State.gd" id="9_3n4jm"]
 [ext_resource type="Script" path="res://Characters/EnemyScene/EyeBeast/GetHitState.gd" id="9_5b2cj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w6ndl"]
@@ -236,6 +235,34 @@ states/idle/node = SubResource("AnimationNodeAnimation_4si8o")
 states/idle/position = Vector2(350, 100)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_o3c3m"), "idle", "get_hit", SubResource("AnimationNodeStateMachineTransition_cjxxh"), "get_hit", "dead", SubResource("AnimationNodeStateMachineTransition_uqamx"), "get_hit", "idle", SubResource("AnimationNodeStateMachineTransition_fwogo"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_7u7ko"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_txfmf")]
 
+[sub_resource type="GDScript" id="GDScript_mro2o"]
+script/source = "extends Node
+
+
+@export var can_move : bool = true
+
+var playback : AnimationNodeStateMachinePlayback
+var main : CharacterBody2D
+var next_state : State
+
+signal interrupt_state(new_state : State)
+
+func state_input(event : InputEvent):
+	pass
+
+func on_enter():
+	pass
+	
+func on_exit():
+	pass
+
+func state_process(delta):
+	pass
+
+func interrupt_signal(new_state : State):
+	pass
+"
+
 [node name="EyeBeast" type="CharacterBody2D"]
 collision_layer = 4
 script = ExtResource("1_k8m4d")
@@ -270,7 +297,7 @@ main = NodePath("..")
 at = NodePath("../AnimationTree")
 
 [node name="Idle" type="Node" parent="EyeBeastStateMachine"]
-script = ExtResource("9_3n4jm")
+script = SubResource("GDScript_mro2o")
 
 [node name="GetHit" type="Node" parent="EyeBeastStateMachine" node_paths=PackedStringArray("boss_health", "dead_state")]
 script = ExtResource("9_5b2cj")
@@ -278,7 +305,14 @@ boss_health = NodePath("../../Health")
 dead_state = NodePath("../Dead")
 
 [node name="Dead" type="Node" parent="EyeBeastStateMachine"]
-script = ExtResource("9_3n4jm")
+script = SubResource("GDScript_mro2o")
 can_move = false
+
+[node name="Attack" type="Node" parent="EyeBeastStateMachine"]
+script = SubResource("GDScript_mro2o")
+
+[node name="Timer" type="Timer" parent="EyeBeastStateMachine/Attack"]
+wait_time = 2.0
+one_shot = true
 
 [connection signal="animation_finished" from="AnimationTree" to="Health" method="_on_animation_tree_animation_finished"]

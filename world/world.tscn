@@ -1,10 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://c817a2et717lf"]
+[gd_scene load_steps=11 format=3 uid="uid://c817a2et717lf"]
 
 [ext_resource type="Texture2D" uid="uid://bdvdcj3yon2er" path="res://pixel/GothicVania-town-files/PNG/environment/layers/tileset.png" id="1_d26u1"]
 [ext_resource type="Texture2D" uid="uid://b6kph1hql61j3" path="res://pixel/GothicVania-town-files/PNG/environment/layers/background.png" id="2_won0w"]
 [ext_resource type="Texture2D" uid="uid://bvvdj14c6wmvx" path="res://pixel/GothicVania-town-files/PNG/environment/layers/middleground.png" id="3_00jhf"]
 [ext_resource type="PackedScene" uid="uid://cjk6rk7i06wkk" path="res://Characters/MainScene/main.tscn" id="4_hbwv2"]
 [ext_resource type="PackedScene" uid="uid://ba68dyrnhsbes" path="res://Characters/EnemyScene/EyeBeast/EyeBeast.tscn" id="5_tgcwx"]
+[ext_resource type="PackedScene" uid="uid://x0qknhn001ny" path="res://Characters/EnemyScene/ChainBot/chain_bot.tscn" id="6_0jv17"]
+[ext_resource type="Script" path="res://world/ChainBotZone.gd" id="6_wm0cp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sb8de"]
 texture = ExtResource("1_d26u1")
@@ -412,6 +414,9 @@ texture = ExtResource("1_d26u1")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_sb8de")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_36i6y"]
+size = Vector2(4.5, 38.5)
+
 [node name="World" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -460,19 +465,40 @@ texture = ExtResource("3_00jhf")
 centered = false
 
 [node name="Main" parent="." instance=ExtResource("4_hbwv2")]
-position = Vector2(47, 283)
+position = Vector2(47, 284)
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Main"]
 texture_filter = 1
-position = Vector2(1, -45)
+position = Vector2(46, -92)
 remote_path = NodePath("../../Camera2D")
 
-[node name="EyeBeast" parent="." instance=ExtResource("5_tgcwx")]
-position = Vector2(231, 262)
-
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(48, 238)
+position = Vector2(93, 192)
 process_callback = 0
 position_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
+
+[node name="EyeBeastZone" type="Node2D" parent="."]
+position = Vector2(243, 199)
+
+[node name="EyeBeast" parent="EyeBeastZone" instance=ExtResource("5_tgcwx")]
+position = Vector2(14, 38)
+
+[node name="ChainBotZone" type="Node2D" parent="."]
+script = ExtResource("6_wm0cp")
+
+[node name="ChainBot" parent="ChainBotZone" instance=ExtResource("6_0jv17")]
+position = Vector2(161, 287)
+
+[node name="Area2D" type="Area2D" parent="ChainBotZone"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChainBotZone/Area2D"]
+position = Vector2(382, 280)
+shape = SubResource("RectangleShape2D_36i6y")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ChainBotZone/Area2D"]
+position = Vector2(129.25, 279.25)
+shape = SubResource("RectangleShape2D_36i6y")
+
+[connection signal="body_entered" from="ChainBotZone/Area2D" to="ChainBotZone" method="_on_area_2d_body_entered"]

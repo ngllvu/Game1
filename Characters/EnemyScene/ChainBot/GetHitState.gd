@@ -1,21 +1,21 @@
 extends State
 
-class_name EyeBeastGetHit
+class_name ChainBotGetHit
 
-@export var boss_health : EyeBeastHealth
+@export var enemy_health : ChainBotHealth
 @export var dead_state : State
 @export var dead_animation : String = "dead"
 @export var get_hit_animation : String = "get_hit"
 
 
 func _ready():
-	boss_health.connect("on_hit", on_boss_health_hit)
+	enemy_health.connect("on_hit", on_enemy_health_hit)
 
 func _process(delta):
 	pass
 
-func on_boss_health_hit(node: Node, dmg_amount : int):
-	if boss_health.health > 0:
+func on_enemy_health_hit(node: Node, dmg_amount : int):
+	if enemy_health.health > 0:
 		emit_signal("interrupt_state", self)
 		playback.travel(get_hit_animation)
 	else :

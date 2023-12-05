@@ -1,6 +1,6 @@
 extends Node
 
-class_name  DmgAble
+class_name MainHealth
 
 @export var health : float = 200.0
 @export var dead_name : String = 'dead'

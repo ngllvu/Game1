@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=3 uid="uid://cjk6rk7i06wkk"]
+[gd_scene load_steps=64 format=3 uid="uid://cjk6rk7i06wkk"]
 
 [ext_resource type="Script" path="res://Characters/MainScene/main.gd" id="1_6j0hh"]
 [ext_resource type="Texture2D" uid="uid://xvsl60lgawq7" path="res://pixel/vagabond/png/ai_dash+.png" id="2_3jy4h"]
@@ -14,15 +14,11 @@
 [ext_resource type="Script" path="res://Characters/MainScene/GroundState.gd" id="10_5fdm0"]
 [ext_resource type="Script" path="res://Characters/MainScene/AirState.gd" id="11_170o6"]
 [ext_resource type="Script" path="res://Characters/MainScene/LandingState.gd" id="12_3yakv"]
-[ext_resource type="Texture2D" uid="uid://4clle8efpsbe" path="res://pixel/vagabond/png/vaga_knock.png" id="12_w507u"]
 [ext_resource type="Texture2D" uid="uid://bkqge3slcsu1x" path="res://pixel/vagabond/png/slash1++.png" id="12_xs0mw"]
 [ext_resource type="Script" path="res://Characters/MainScene/AttackState.gd" id="13_tiwbk"]
 [ext_resource type="Script" path="res://Characters/MainScene/DashState.gd" id="14_bm21x"]
 [ext_resource type="Script" path="res://Characters/MainScene/Sword.gd" id="15_4j8bc"]
 [ext_resource type="Script" path="res://Characters/MainScene/CollisionDirect.gd" id="16_gs3ix"]
-[ext_resource type="Script" path="res://Characters/MainScene/GetHit.gd" id="19_idv12"]
-[ext_resource type="Script" path="res://Characters/MainScene/DeadState.gd" id="20_0tibk"]
-[ext_resource type="Script" path="res://Characters/MainScene/MainHealth.gd" id="20_qcmkp"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1sgr3"]
 radius = 6.0
@@ -291,46 +287,6 @@ tracks/2/keys = {
 "values": [0, 1, 2, 3]
 }
 
-[sub_resource type="Animation" id="Animation_ppshs"]
-resource_name = "hurt"
-length = 0.4
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("12_w507u")]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:hframes")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [5]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [5, 6, 7, 8]
-}
-
 [sub_resource type="Animation" id="Animation_5ip0q"]
 resource_name = "idle"
 length = 0.4
@@ -585,7 +541,6 @@ _data = {
 "attack3": SubResource("Animation_wy63e"),
 "block": SubResource("Animation_48wxg"),
 "dash": SubResource("Animation_htu0v"),
-"hurt": SubResource("Animation_ppshs"),
 "idle": SubResource("Animation_5ip0q"),
 "jump": SubResource("Animation_xlqv0"),
 "jump_flip": SubResource("Animation_rjr3o"),
@@ -686,12 +641,14 @@ states/land/position = Vector2(256, 196)
 states/move/node = SubResource("AnimationNodeBlendSpace1D_skaii")
 states/move/position = Vector2(256, 282)
 transitions = ["move", "jump", SubResource("AnimationNodeStateMachineTransition_r4r4o"), "jump", "jump_flip", SubResource("AnimationNodeStateMachineTransition_08x86"), "jump_flip", "land", SubResource("AnimationNodeStateMachineTransition_1h0om"), "land", "move", SubResource("AnimationNodeStateMachineTransition_0watb"), "jump", "land", SubResource("AnimationNodeStateMachineTransition_nevwu"), "Start", "move", SubResource("AnimationNodeStateMachineTransition_ecske"), "move", "attack1", SubResource("AnimationNodeStateMachineTransition_b3hif"), "attack1", "move", SubResource("AnimationNodeStateMachineTransition_6v8pr"), "attack1", "attack2", SubResource("AnimationNodeStateMachineTransition_8ftdt"), "attack2", "attack3", SubResource("AnimationNodeStateMachineTransition_dhi5x"), "attack3", "move", SubResource("AnimationNodeStateMachineTransition_ale3y"), "attack2", "move", SubResource("AnimationNodeStateMachineTransition_xcba2"), "move", "dash", SubResource("AnimationNodeStateMachineTransition_sk0el"), "dash", "move", SubResource("AnimationNodeStateMachineTransition_62oxr")]
-graph_offset = Vector2(-79.5439, 135.719)
+graph_offset = Vector2(-79.5439, -17.9865)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_okgfv"]
 size = Vector2(44, 15)
 
-[node name="Main" type="CharacterBody2D" groups=["Player"]]
+[sub_resource type="SpriteFrames" id="SpriteFrames_sxlvw"]
+
+[node name="Main" type="CharacterBody2D"]
 collision_layer = 2
 script = ExtResource("1_6j0hh")
 
@@ -716,21 +673,22 @@ anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/move/blend_position = 0.0
 
-[node name="Health" type="Node" parent="."]
-script = ExtResource("20_qcmkp")
-
 [node name="MainStateMachine" type="Node" parent="." node_paths=PackedStringArray("curr_state", "main", "at")]
 script = ExtResource("9_uw0ov")
 curr_state = NodePath("Ground")
 main = NodePath("..")
 at = NodePath("../AnimationTree")
 
-[node name="Ground" type="Node" parent="MainStateMachine" node_paths=PackedStringArray("air_state", "land_state", "attack_state", "dash_state")]
+[node name="Ground" type="Node" parent="MainStateMachine" node_paths=PackedStringArray("air_state", "attack_state", "dash_state")]
 script = ExtResource("10_5fdm0")
+jump_velocity = null
 air_state = NodePath("../Air")
-land_state = NodePath("../Land")
+jump_animation = null
+attack_node = null
 attack_state = NodePath("../Attack")
+dash_animation = null
 dash_state = NodePath("../Dash")
+can_move = null
 
 [node name="gtimer" type="Timer" parent="MainStateMachine/Ground"]
 wait_time = 0.05
@@ -762,15 +720,6 @@ return_state = NodePath("../Ground")
 [node name="dtimer" type="Timer" parent="MainStateMachine/Dash"]
 one_shot = true
 
-[node name="GetHit" type="Node" parent="MainStateMachine" node_paths=PackedStringArray("main_health", "dead_state")]
-script = ExtResource("19_idv12")
-main_health = NodePath("../../Health")
-dead_state = NodePath("../Dead")
-
-[node name="Dead" type="Node" parent="MainStateMachine"]
-script = ExtResource("20_0tibk")
-can_move = false
-
 [node name="Sword" type="Area2D" parent="." node_paths=PackedStringArray("main", "facing_collision")]
 collision_layer = 0
 collision_mask = 4
@@ -786,8 +735,11 @@ script = ExtResource("16_gs3ix")
 facing_left = Vector2(-28, 5)
 facing_right = Vector2(28, 5)
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_sxlvw")
+
 [connection signal="animation_finished" from="AnimationTree" to="MainStateMachine/Land" method="_on_animation_tree_animation_finished"]
 [connection signal="animation_finished" from="AnimationTree" to="MainStateMachine/Attack" method="_on_animation_tree_animation_finished"]
 [connection signal="animation_finished" from="AnimationTree" to="MainStateMachine/Dash" method="_on_animation_tree_animation_finished"]
-[connection signal="timeout" from="MainStateMachine/Dash/dtimer" to="MainStateMachine/Dash" method="_on_dtimer_timeout"]
+[connection signal="timeout" from="MainStateMachine/Dash/dtimer" to="MainStateMachine/Ground" method="_on_dtimer_timeout"]
 [connection signal="body_entered" from="Sword" to="Sword" method="_on_body_entered"]
